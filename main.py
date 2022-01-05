@@ -6,9 +6,11 @@ app.secret_key = "elephant"
 
 all_books = []
 
+
 @app.route('/')
 def home():
-    return render_template('index.html', data=all_books)
+    return render_template('index.html', data=all_books, length=len(all_books))
+
 
 @app.route("/add", methods=["GET", "POST"])
 def add():
