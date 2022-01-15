@@ -57,6 +57,14 @@ def edit(book_id):
       return redirect(url_for('home'))
 
 
+@app.route("/delete/<int:book_id>", methods=["GET"])
+def delete(book_id):
+  if request.method == "GET":
+    book_to_delete = Book.query.get(book_id)
+    db.session.delete(book_to_delete)
+    db.session.commit()
+    return redirect(url_for('home'))
+
 if __name__ == "__main__":
     app.run(debug=True)
 

@@ -11,7 +11,7 @@
     {% else %}
         <ul>
             {% for item in data %}
-            <li> {{ item.title }} - {{ item.author }} - {{ item.rating }}/10 <a href="edit/{{item.id}}">Edit Rating</a></li>
+            <li> <a href="{{ url_for('delete', book_id=item.id) }}">Delete</a> {{ item.title }} - {{ item.author }} - {{ item.rating }}/10 <a href="edit/{{item.id}}">Edit Rating</a></li>
             {% endfor %}
         </ul>
     {% endif %}
