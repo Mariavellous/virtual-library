@@ -48,10 +48,12 @@ def add():
 def edit(book_id):
   if request.method == "GET":
     book = Book.query.filter_by(id=book_id).first()
-    # print(book)
     return render_template("edit.html", book_id=book_id, book=book)
   else:
     if request.method == "POST":
+      book_to_update = Book.query.get(book_id)
+      book_to_update.rating = request.form["rating"]
+      db.session.commit()
       return redirect(url_for('home'))
 
 
