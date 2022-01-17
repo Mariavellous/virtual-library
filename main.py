@@ -32,7 +32,9 @@ def add():
     if request.method == "POST":
       title = request.form["title"]
       author = request.form["author"]
-      rating = request.form["rating"]
+      actual_rating = float(request.form["rating"])
+      rating = max(0.0, min(actual_rating, 10.0))
+
       book = Book(title=title, author=author, rating=rating)
       db.session.add(book)
       db.session.commit()
@@ -52,9 +54,11 @@ def edit(book_id):
   else:
     if request.method == "POST":
       book_to_update = Book.query.get(book_id)
-      book_to_update.rating = request.form["rating"]
-      db.session.commit()
-      return redirect(url_for('home'))
+      if 0 <= float(request.form["rating"]) <= 10:
+        book_to_update.rating = request.form["rating"]
+        db.session.commit()
+        return redirect(url_for('home'))
+      return render_template("edit.html", book_id=book_id, book=book_to_update)
 
 
 @app.route("/delete/<int:book_id>", methods=["GET"])
